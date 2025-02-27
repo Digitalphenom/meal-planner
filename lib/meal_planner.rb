@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'erubi'
 require 'sinatra/reloader'
+
+set :views, File.expand_path('../views', __dir__)
 
 configure do
   enable :sessions
@@ -8,6 +12,5 @@ configure do
 end
 
 get '/' do
-  'Welcome To Tailored Meals!'
+  erb :subhero, layout: :layout
 end
-
