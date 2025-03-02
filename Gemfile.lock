@@ -25,6 +25,8 @@ GEM
     puma (6.6.0)
       nio4r (~> 2.0)
     rack (2.2.11)
+    rack-livereload (0.5.2)
+      rack (< 3)
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
@@ -56,6 +58,7 @@ DEPENDENCIES
   minitest-reporters
   pry
   puma
+  rack-livereload
   rack-test
   sinatra
   sinatra-contrib

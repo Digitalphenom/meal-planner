@@ -15,5 +15,8 @@ gem 'bcrypt'
 group :production do
   gem 'puma'
 end
+group :development do
+  gem 'rack-livereload'
+end
 ruby '3.2.2'
 

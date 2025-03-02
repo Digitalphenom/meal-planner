@@ -1,6 +1,139 @@
-h1 { 
-  font-size: 50px;
+body {
+  margin: 0;
+  padding: 0;
 }
-.sub-hero {
+@font-face {
+  font-family: "Cocon";
+  src: url('/fonts/CoconRegularFont.otf') format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+.hero-container {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  
+}
+
+.hero-text {
+  text-align: center;
+  width: 460px;
+  font-size: 17px;
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: #042847;
+  margin-top: -20px;
+  margin-bottom: 40px;
+  
+}
+
+.sub-hero-headline-text {
+  text-align: center;
+  width: 460px;
+  font-size: 15px;
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: #042847;
+}
+
+.header {
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+h1 { 
+  font-family: "Cocon", sans-serif;
+  font-size: 58px;
+  color: #042847;
+  text-align: center;
+}
+
+h2 { 
+  font-family: "Cocon", sans-serif;
+  font-size: 28px;
+  color: #042847;
+  text-align: center;
+  width: 60vw;
+}
+
+.subhero {
   background-color: #F6FBFB;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+}
+
+.subhero-heading-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-button {
+  background-color: #4BB217;
+  color: white;
+  border: none;
+  width: 400px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.box-container { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+
+}
+
+.box {
+  border-radius: 10px;
+  border: 1.5px solid #ddf0ff ;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 30%;
+  padding: 10px;
+}
+
+.box h3{
+  font-family: "Cocon", sans-serif;
+  font-size: large;
+  color: #042847;
+}
+
+.box p{
+  font-family: "Nunito";
+  font-size: 14px;
+  color: #042847;
+}
+.one {
+  background-color: white;
+  
+}
+.two {
+  background-color: #D3F4FC;
+}
+
+.three {
+  background-color: #F3FCD3;
 }
