@@ -16,20 +16,30 @@ configure do
 end
 
 get '/' do
-  @next_page = '/enter calories'
+  @next_page = '/enter-calories'
+  @button_text = 'Get Started'
   erb :"subhero.html", layout: :"layout.html"
 end
 
-get '/enter calories' do
+get '/enter-calories' do
+  @button_text = 'Get Started'
+  @placeholder_name = 'Enter your calories'
   erb :"layout.html"
 end
 
-get '/enter meals' do
-  @next_page = '/enter meals'
+get '/enter-meals' do
+  @placeholder_name = 'Enter your meal count'
   erb :"layout.html"
 end
 
-post '/enter calories' do
-  session['user'] = params['calories']
-  redirect 'enter calories'
+post '/enter-calories' do
+  @input_name = 'calories'
+  session['user_calories'] = params[@input_name]
+  redirect 'enter-meals'
+end
+
+post '/enter-meals' do
+  @input_name = 'meals'
+  session['user_meals'] = params[@input_name]
+  redirect 'choose-macros'
 end

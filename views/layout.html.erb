@@ -24,12 +24,12 @@
           </p>
           <% if env["REQUEST_PATH"] == "/" %>
             <a href="<%= @next_page %>">
-              <button type="submit" class="hero-button" >Go Next</button>
+              <button type="submit" class="hero-button" >Get Started</button>
             </a>
           <% else %>
-            <form action="enter calories" method="post" class="input-and-button-container">
-              <input type="text" placeholder="Enter your total calories" name="calories" class="input">
-              <button type="submit" class="hero-button" >Go Next</button>
+            <form action="<% @next_page %>" method="post" class="input-and-button-container">
+              <input type="text" placeholder="<%= @placeholder_name %>" name="<%= @input_name %>" class="input">
+              <button type="submit" class="hero-button" >Next</button>
             </form>
           <% end %>
         </div>
