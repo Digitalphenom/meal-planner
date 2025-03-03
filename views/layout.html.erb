@@ -8,20 +8,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     </head>
     <body>
-      <header class="header"> Logo Goes here</header>
+      <header class="header"> 
+        <div class="logo"><a href="/">Logo Goes here</a></div>
+        <% unless env["REQUEST_PATH"] == "/" %>
+        <div class="header-progress-bar">
+          <p>1. Calories</p><p>2. Meal Count</p><p>3. Macros</p><p>4. Meals</p><p>5. Total</p>
+        </div>
+      <% end %>
+        
+      </header>
       <div class="hero-container">
         <div class="hero-content-container">
           <h1> Tailored Meal Planner</h1>
           <p class="hero-text" >We get it, losing weight is hard work. Were here to make it a little easier for you. Enter your info, and well send you a Free Custom Weight Loss Meal Plan.
           </p>
-          <a href="enter calories">
-            <button type="submit" class="main-button" >Go Next</button>
-          </a>
+          <% if env["REQUEST_PATH"] == "/" %>
+            <a href="<%= @next_page %>">
+              <button type="submit" class="hero-button" >Go Next</button>
+            </a>
+          <% else %>
+            <form action="enter calories" method="post" class="input-and-button-container">
+              <input type="text" placeholder="Enter your total calories" name="calories" class="input">
+              <button type="submit" class="hero-button" >Go Next</button>
+            </form>
+          <% end %>
         </div>
       </div>
-
-      <div class="subhero">
+      <% if env["REQUEST_PATH"] == "/" %>
+        <div class="subhero">
           <%= yield %>
-      </div>
+        </div>
+      <% end %>
     </body>
 </html>

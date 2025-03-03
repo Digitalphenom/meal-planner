@@ -16,5 +16,20 @@ configure do
 end
 
 get '/' do
+  @next_page = '/enter calories'
   erb :"subhero.html", layout: :"layout.html"
+end
+
+get '/enter calories' do
+  erb :"layout.html"
+end
+
+get '/enter meals' do
+  @next_page = '/enter meals'
+  erb :"layout.html"
+end
+
+post '/enter calories' do
+  session['user'] = params['calories']
+  redirect 'enter calories'
 end
