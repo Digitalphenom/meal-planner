@@ -16,7 +16,7 @@ configure do
 end
 
 def valid_input?(input)
-  if env["REQUEST_PATH"] == '/enter-meals'
+  if env["REQUEST_PATH"] == '/enter-meals'  
     !input.to_i.zero? && input.to_i.size < 13
   else
     !input.to_i.zero?
@@ -26,34 +26,28 @@ end
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 get '/' do
-  @next_page = '/enter-calories'
-  @button_text = 'Get Started'
-  erb :"subhero.html", layout: :"layout.html"
+  erb :"hero.html", layout: :"layout.html"
 end
 
 get '/enter-calories' do
-  @button_text = 'Get Started'
-  @placeholder_name = 'Enter your calories'
-  erb :"layout.html"
+  erb :"enter_calories_page.html", layout: :"layout.html"
 end
 
 get '/enter-meals' do
-  @placeholder_name = 'Enter your meal count (1-12)'
-  erb :"layout.html"
+  erb :"enter_meals_page.html", layout: :"layout.html"
 end
 
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 post '/enter-calories' do
-  @input_name = 'calories'
-  if valid_input?(params[@input_name])
+  if valid_input?(params['calories'])
     @add_inline = false
-    session['user_calories'] = params[@input_name]
+    session['user_calories'] = params['calories']
     redirect 'enter-meals'
   else
     @placeholder_name = 'Enter a numeric value'
     @add_inline = true
-    erb :"layout.html"
+    erb :"enter_calories_page.html", layout: :"layout.html"
   end
 end
 
