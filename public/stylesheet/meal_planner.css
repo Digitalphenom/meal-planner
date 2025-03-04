@@ -123,6 +123,27 @@ h2 {
   height: 40px;
 }
 
+.back-button { 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: "Nunito";
+  font-size: large;
+  color: #959595;
+  border: none;
+  width: 395px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1.5px solid #797979 ;
+}
+
+.back-button a{
+  font-family: 'Nunito';
+  font-style: normal;
+  text-decoration: none;
+}
+
 .subhero {
   background-color: #F6FBFB;
   height: 50vh;
