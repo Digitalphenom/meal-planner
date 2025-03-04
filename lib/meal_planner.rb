@@ -15,6 +15,7 @@ configure do
   set :session_secret, SecureRandom.hex(32)
 end
 
+
 helpers do 
   def add_inline
     @add_inline ? 'background-color: #FFB5B5' : ''
@@ -47,10 +48,10 @@ end
 
 post '/enter-calories' do
   if invalid_input?(params[:calories])    
-    @add_inline = true
+    session[:error] = 'Enter a numeric value'
+    redirect '/enter-meals'
     erb :"enter_calories_page.html", layout: :"layout.html"
   else
-    @add_inline = false
     session['user_calories'] = params[:calories]
     redirect 'enter-meals'
   end
@@ -58,10 +59,10 @@ end
 
 post '/enter-meals' do
   if invalid_input?(params[:meals])
-    @add_inline = true
+    session[:error] = 'Enter a valid meal count'
+    redirect '/enter-meals'
     erb :"enter_meals_page.html", layout: :"layout.html"
   else
-    @add_inline = false
     session['user_meals'] = params[:meals]
     redirect 'choose-macros'
   end

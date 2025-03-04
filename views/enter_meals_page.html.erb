@@ -4,11 +4,13 @@
     <p class="hero-text">We get it, losing weight is hard work. Were here to make it a little easier for you. Enter your
       info, and well send you a Free Custom Weight Loss Meal Plan.
     </p>
-      <% if @add_inline %>
-        <p>Enter a numeric value</p>
+      <% if session[:error] %>
+      <div class="error">
+        <p><%= session.delete(:error) %></p>
+      </div>
       <% end %>
       <form action="/enter-meals" method="post"   class="input-and-button-container">
-        <input type="text" placeholder="Enter your meals" name="meals" class="input"  style="<%= add_inline %>">
+        <input type="text" placeholder="Enter your meals" name="meals" class="input">
         <button type="submit" class="hero-button">Next</button>
       </form>
   </div>

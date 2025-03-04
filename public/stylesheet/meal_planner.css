@@ -117,6 +117,12 @@ h2 {
   width: 60vw;
 }
 
+.error {
+  background-color: #FFB5B5;
+  width: 400px;
+  height: 40px;
+}
+
 .subhero {
   background-color: #F6FBFB;
   height: 50vh;
