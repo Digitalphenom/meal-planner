@@ -22,6 +22,9 @@ GEM
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry-byebug (3.8.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     puma (6.6.0)
       nio4r (~> 2.0)
     rack (2.2.11)
@@ -52,11 +55,11 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
-  byebug
   erubi
   minitest
   minitest-reporters
   pry
+  pry-byebug
   puma
   rack-livereload
   rack-test
