@@ -15,11 +15,17 @@ configure do
   set :session_secret, SecureRandom.hex(32)
 end
 
-def valid_input?(input)
+helpers do 
+  def add_inline
+    @add_inline ? 'background-color: #FFB5B5' : ''
+  end
+end
+
+def invalid_input?(input)
   if env["REQUEST_PATH"] == '/enter-meals'  
-    !input.to_i.zero? && input.to_i.size < 13
+    input.to_i > 12 || input.match?(/\D/) || input.to_i.zero?
   else
-    !input.to_i.zero?
+    input.match?(/\D/) || input.to_i.zero?
   end
 end
 
@@ -40,26 +46,23 @@ end
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 post '/enter-calories' do
-  if valid_input?(params['calories'])
-    @add_inline = false
-    session['user_calories'] = params['calories']
-    redirect 'enter-meals'
-  else
-    @placeholder_name = 'Enter a numeric value'
+  if invalid_input?(params[:calories])    
     @add_inline = true
     erb :"enter_calories_page.html", layout: :"layout.html"
+  else
+    @add_inline = false
+    session['user_calories'] = params[:calories]
+    redirect 'enter-meals'
   end
 end
 
 post '/enter-meals' do
-  @input_name = 'meals'
-  if valid_input?(params[@input_name])
-    @add_inline = false
-    session['user_meals'] = params[@input_name]
-    redirect 'choose-macros'
-  else
-    @placeholder_name = 'Enter a numeric value between 1-12'
+  if invalid_input?(params[:meals])
     @add_inline = true
-    erb :"layout.html"
+    erb :"enter_meals_page.html", layout: :"layout.html"
+  else
+    @add_inline = false
+    session['user_meals'] = params[:meals]
+    redirect 'choose-macros'
   end
 end
