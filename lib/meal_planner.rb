@@ -15,6 +15,12 @@ configure do
   set :session_secret, SecureRandom.hex(32)
 end
 
+def valid_input?(input)
+  !input.to_i.zero?
+end
+
+#◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
+
 get '/' do
   @next_page = '/enter-calories'
   @button_text = 'Get Started'
@@ -32,14 +38,30 @@ get '/enter-meals' do
   erb :"layout.html"
 end
 
+#◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
+
 post '/enter-calories' do
   @input_name = 'calories'
-  session['user_calories'] = params[@input_name]
-  redirect 'enter-meals'
+  if valid_input?(params[@input_name])
+    @add_inline = false
+    session['user_calories'] = params[@input_name]
+    redirect 'enter-meals'
+  else
+    @placeholder_name = 'Enter a numeric value'
+    @add_inline = true
+    erb :"layout.html"
+  end
 end
 
 post '/enter-meals' do
   @input_name = 'meals'
-  session['user_meals'] = params[@input_name]
-  redirect 'choose-macros'
+  if valid_input?(params[@input_name])
+    @add_inline = false
+    session['user_meals'] = params[@input_name]
+    redirect 'choose-macros'
+  else
+    @placeholder_name = 'Enter a numeric value'
+    @add_inline = true
+    erb :"layout.html"
+  end
 end

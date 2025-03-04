@@ -28,7 +28,11 @@
             </a>
           <% else %>
             <form action="<% @next_page %>" method="post" class="input-and-button-container">
-              <input type="text" placeholder="<%= @placeholder_name %>" name="<%= @input_name %>" class="input">
+              <% if @add_inline %>
+                <input type="text" placeholder="<%= @placeholder_name %>" name="<%= @input_name %>" class="input"  style="background-color: #FFB5B5">
+              <% else %>
+                <input type="text" placeholder="<%= @placeholder_name %>" name="<%= @input_name %>" class="input">
+              <% end %>
               <button type="submit" class="hero-button" >Next</button>
             </form>
           <% end %>
