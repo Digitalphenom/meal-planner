@@ -44,6 +44,10 @@ get '/enter-meals' do
   erb :"enter_meals_page.html", layout: :"layout.html"
 end
 
+get '/choose-macros' do
+  erb :"macros.html", layout: :"layout.html"
+end
+
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 post '/enter-calories' do

@@ -49,6 +49,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+  
 }
 
 .hero-text {
@@ -163,8 +164,8 @@ h2 {
 
 .box-container { 
   display: flex;
-  justify-content: space-between;
-  align-items: center; 
+  justify-content: center;
+  gap: 20px;
 
 }
 
@@ -176,7 +177,8 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 30%;
+  max-width: 240px;
+  width: 100%;
   padding: 10px;
 }
 
@@ -201,4 +203,53 @@ h2 {
 
 .three {
   background-color: #F3FCD3;
+}
+
+.macros-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.macros-box {
+  max-width: 250px;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1.5px solid #95D277;
+  text-align: center;
+  width: 28%;
+}
+
+.macros-box:hover {
+  background-color: #F2F7D6;
+  font-size: larger;
+}
+
+.macros-box:hover .macro-percent {
+  font-weight: 600;
+}
+
+.macros-box:hover h3{
+  font-size: 31px;
+}
+
+.macros-box h3{
+  font-family: 'Nunito';
+  font-size: 26px;
+  color: #042847;
+}
+
+.macros-box p{
+  font-family: 'Nunito';
+  font-size: 15px;
+  width: 100%;
+  color: #042847;
+}
+
+.macro-percent  {
+  font-family: 'Nunito';
+  font-weight: 300;
+  font-size: 24px !important;
+  width: 100% !important;
+  color: #1B87E7 !important;
 }
