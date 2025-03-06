@@ -20,6 +20,13 @@ helpers do
   def add_inline
     @add_inline ? 'background-color: #FFB5B5' : ''
   end
+
+  def macros
+    { Endurance: %w[20 50 30],
+      Strength: %w[40 30 30],
+      Weight_Loss: %w[50 25 25] 
+    }
+  end
 end
 
 def invalid_input?(input)
@@ -29,6 +36,8 @@ def invalid_input?(input)
     input.match?(/\D/) || input.to_i.zero?
   end
 end
+
+
 
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
@@ -62,6 +71,7 @@ post '/enter-calories' do
 end
 
 post '/enter-meals' do
+  
   if invalid_input?(params[:meals])
     session[:error] = 'Enter a valid meal count'
     redirect '/enter-meals'
@@ -70,4 +80,8 @@ post '/enter-meals' do
     session['user_meals'] = params[:meals]
     redirect 'choose-macros'
   end
+end
+
+post '/choose-macros' do 
+  require 'pry'; binding.pry
 end

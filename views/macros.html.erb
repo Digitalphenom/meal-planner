@@ -4,21 +4,17 @@
     info, and well send you a Free Custom Weight Loss Meal Plan
   </p>
   <div class="macros-container">
-    <div class="macros-box">
-      <h3>Strength</h3>
-      <p class="macro-percent">40 / 30 / 30</p>
-      <p>We get it, losing weight is hard work. Were here to make it a little easier for you.</p>
-    </div>
-    <div class="macros-box">
-      <h3>Weight Loss</h3>
-      <p class="macro-percent">50 / 25 / 25</p>
-      <p>We get it, losing weight is hard work. Were here to make it a little easier for you.</p>
-    </div>
-    <div class="macros-box">
-      <h3>Endurance</h3>
-      <p class="macro-percent">20 / 50 / 30</p>
-      <p>We get it, losing weight is hard work. Were here to make it a little easier for you.</p>
-    </div>
+      <% macros.each do |type, percent| %>
+    <form action="/choose-macros" method="post">
+      <input type="hidden" name="macros" value="<%= percent.join(',') %>">
+      <% protein, carbs, fat =  percent[0], percent[1], percent[2] %>
+      <button class="macros-box">
+      <h3><%= type.to_s.split('_').join(' ') %></h3>
+      <p class="macro-percent"> <%= "#{protein} / #{carbs} / #{fat}" %></p>
+      <p>We get it, losing weight is hard work. Were here to make it a  little easier for you.</p>
+      </button>
+    </form>
+  <% end %>
   </div>
 </section>
 
