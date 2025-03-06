@@ -46,11 +46,11 @@ get '/' do
 end
 
 get '/enter-calories' do
-  erb :"enter_calories_page.html", layout: :"layout.html"
+  erb :"calories.html", layout: :"layout.html"
 end
 
 get '/enter-meals' do
-  erb :"enter_meals_page.html", layout: :"layout.html"
+  erb :"meals.html", layout: :"layout.html"
 end
 
 get '/choose-macros' do
@@ -62,8 +62,7 @@ end
 post '/enter-calories' do
   if invalid_input?(params[:calories])    
     session[:error] = 'Enter a numeric value'
-    redirect '/enter-meals'
-    erb :"enter_calories_page.html", layout: :"layout.html"
+    redirect '/enter-calories'
   else
     session['user_calories'] = params[:calories]
     redirect 'enter-meals'
@@ -71,11 +70,9 @@ post '/enter-calories' do
 end
 
 post '/enter-meals' do
-  
   if invalid_input?(params[:meals])
     session[:error] = 'Enter a valid meal count'
     redirect '/enter-meals'
-    erb :"enter_meals_page.html", layout: :"layout.html"
   else
     session['user_meals'] = params[:meals]
     redirect 'choose-macros'
