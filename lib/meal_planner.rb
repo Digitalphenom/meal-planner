@@ -42,7 +42,7 @@ end
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 get '/' do
-  erb :"hero.html", layout: :"layout.html"
+  erb :"home.html", layout: :"layout.html"
 end
 
 get '/enter-calories' do
