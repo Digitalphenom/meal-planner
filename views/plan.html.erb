@@ -5,10 +5,10 @@
     <br>
 
     <div class="meals-container">
-
+      <% (@meals).times do |i| %>
     <div class="meal-box">
       <div class="meal-top">
-        <h2>Meal 1</h2> 
+        <h2>Meal <%= i + 1%></h2> 
         <a href="build-meal-plan/edit-meal">
           <img  hre src="fonts/file-edit.png" alt="Edit File" width="25"   height="25">
         </a>
@@ -20,19 +20,20 @@
       </div>
         <div class="meal-bottom"> 
           <div class="meal-sections">
-            <h4>Calories</h4><p>0 / 1500</p>
+            <h4>Calories</h4><p>0 / <%= @calories_per_meal %> </p>
           </div>
           <div class="meal-sections">
-            <h4>Protein</h4><p>0 / 1500</p>
+            <h4>Protein</h4><p>0 / <%= @protein  %> </p>
           </div>
           <div class="meal-sections">
-            <h4>Carbohydrate</h4><p>0 / 1500</p>
+            <h4>Carbohydrate</h4><p>0 / <%= @carb %> </p>
           </div>
           <div class="meal-sections">
-            <h4>Fat</h4><p>0 / 1500</p>
+            <h4>Fat</h4><p>0 / <%= @fat %> </p>
           </div>
         </div>
       </div>
+      <% end %>
       <div class="meal-box">
       </div>
     </div>
