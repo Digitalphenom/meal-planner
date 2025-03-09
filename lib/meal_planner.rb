@@ -37,8 +37,6 @@ def invalid_input?(input)
   end
 end
 
-
-
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 get '/' do
@@ -57,10 +55,18 @@ get '/choose-macros' do
   erb :"macros.html", layout: :"layout.html"
 end
 
+get '/build-meal-plan' do
+  erb :"plan.html", layout: :"layout.html"
+end
+
+get '/edit-meal:id' do
+  'edit meal'
+end
+
 #◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 post '/enter-calories' do
-  if invalid_input?(params[:calories])    
+  if invalid_input?(params[:calories])
     session[:error] = 'Enter a numeric value'
     redirect '/enter-calories'
   else
@@ -80,5 +86,12 @@ post '/enter-meals' do
 end
 
 post '/choose-macros' do 
-  require 'pry'; binding.pry
+  redirect 'build-meal-plan'
+end
+
+post '/build-meal-plan/destroy-meal:id' do
+  # iterate through meals and reject :id
+  # re-serve the meals page
+  # redirect '/build-meal-plan'
+  "Destroy Meal"
 end
