@@ -29,6 +29,23 @@ helpers do
   end
 end
 
+#◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
+
+before do
+  if ENV["DEBUG_MODE"] == "true"
+    session[:user_one] = {}
+    session[:user_one][:presets] = {}
+    session[:user_one][:calc] = {}
+    
+    @macros = session[:user_one][:presets][:macros] = [40, 30, 30]
+    @meals = session[:user_one][:presets][:meals] = 5
+    @total_calories = session[:user_one][:presets][:calories] = 1500
+    retrieve_calories_per_gram(@macros, @total_calories)
+    retrieve_calories_per_meal
+    capture_calc_values
+  end
+end
+
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 def invalid_input?(input)
