@@ -5,25 +5,19 @@
     <br>
 
     <div class="meals-container">
-
-    <div class="meal-box">
-      <div class="meal-top">
+    <div class="meal-box meal-box--single">
+      <div class="meal-top meal-top--single">
         <h2>Meal <%= @meal_id %> </h2> 
-        
+        <div class="meal-sections meal-sections--single">
+          <h4>Calories</h4>
+          <h4>Protein</h4>
+          <h4>Carbohydrate</h4>
+          <h4>Fat</h4>
+        </div>
       </div>
-        <div class="meal-bottom"> 
-          <div class="meal-sections">
-            <h4>Calories</h4><p>0 / <%= @calories_per_meal %> </p>
-          </div>
-          <div class="meal-sections">
-            <h4>Protein</h4><p>0 / <%= @protein  %> </p>
-          </div>
-          <div class="meal-sections">
-            <h4>Carbohydrate</h4><p>0 / <%= @carb %> </p>
-          </div>
-          <div class="meal-sections">
-            <h4>Fat</h4><p>0 / <%= @fat %> </p>
-          </div>
+        <div class="meal-values-container"> 
+          
+          
         </div>
       </div>
     </div>

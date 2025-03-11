@@ -114,7 +114,8 @@ h2 {
   font-size: 28px;
   color: #042847;
   text-align: center;
-  width: 60vw;
+  /*width: 50vw;*/
+  /*width: 50vw; was 60vw current may affect @media 1070*/
 }
 
 .error {
@@ -266,12 +267,13 @@ h2 {
 }
 
 .meal-box {
-  width: calc(43% - 200px);
-  min-width: 486px;  
+  width: calc(44% - 200px);
+  min-width: 486px;
+  
 }
 
 .blank-meal-box {
-  width: calc(43% - 200px);
+  width: calc(44% - 200px);
   min-width: 486px;  
 }
 
@@ -289,11 +291,71 @@ h2 {
   margin: 0;
   text-align: left;
   font-size: 42px;
-  margin-left: 10px;
+  margin-left: 12px !important;
 }
+
+.meal-box--single{
+  min-width: 690px !important;
+}
+
+.meal-top--single{
+  align-items: end;
+  justify-content: space-between;
+}
+
+.meal-top--single h2{
+  font-size: 46px;
+}
+
+.meal-sections--single {
+  display: flex;
+  justify-content: space-between; 
+  width: 420px;
+  padding-right: 40px;
+}
+
+.meal-sections--single h4{
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 17.5px;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  padding-bottom: 4px;
+}
+
 
 img { 
   padding: 10px;
+}
+
+.meal-values-container { 
+  display: flex;
+  justify-content: space-around;
+  background-color: #FBFAFA;
+  align-items: center;
+  height: 85px;
+  margin-top: 4px; 
+  
+}
+
+.meal-values-container h5{
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 22px;
+  color: #043159;
+  padding-right: 50px;
+  
+}
+
+.meal-values-container p{
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #043159;
+}
+
+.meal-line-values {
+  display: flex;
+  justify-content:space-between ;
+  width: 62%;
 }
 
 .trash-icon-button {
@@ -325,7 +387,7 @@ img {
 
 .meal-sections h4{
   margin: 0;
-  font-family: 'Nunito';
+  font-family: 'Nunito Sans', sans-serif;
   font-style: italic;
   font-weight: 400;
   color: #042847;
@@ -337,6 +399,7 @@ img {
   font-style: italic;
   color: #042847;
 }
+
 
 hr { 
   width: 600px;
