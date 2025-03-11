@@ -5,18 +5,11 @@
     <br>
 
     <div class="meals-container">
-      <% @meals.times do |i| %>
+
     <div class="meal-box">
       <div class="meal-top">
-        <h2>Meal <%= i + 1 %></h2> 
-        <a href="build-meal-plan/edit-meal<%= i %>">
-          <img src="/fonts/file-edit.png" alt="Edit File" width="25"   height="25">
-        </a>
-        <form action="/build-meal-plan/destroy-meal(id)" method="post">
-          <button type="submit" class="trash-icon-button">
-          <img src="/fonts/trash-xmark.png" alt="Delete File" width="25"   height="25">
-          </button>
-        </form>          
+        <h2>Meal <%= @meal_id %> </h2> 
+        
       </div>
         <div class="meal-bottom"> 
           <div class="meal-sections">
@@ -33,16 +26,12 @@
           </div>
         </div>
       </div>
-      <% end %>
-      <div class="meal-box">
-      </div>
     </div>
   </div>
-  <div class="meal-btn-container">
+  <div class="meal-btn-container meal-btn-container--single-meal">
     <div class="meals-back-button">
-      <a href="/choose-macros">Go Back</a>
+      <a href="/build-meal-plan">Go Back</a>
     </div>
     <button href="" type="submit" class="meals-button">Get Totals</button>
   </div>
 </section>
-

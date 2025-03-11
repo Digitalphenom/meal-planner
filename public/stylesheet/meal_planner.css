@@ -345,7 +345,7 @@ hr {
   background-color: #E7E7E7;
 }
 
-.meals-buttons-container {
+.meal-btn-container {
   font-family: 'Nunito';
   display: flex;
   flex-direction: row;
@@ -356,7 +356,7 @@ hr {
   
 }
 
-.meals-buttons-container button{
+.meal-btn-container button{
   background-color: #4BB217;
   align-items: center;
   color: white;
@@ -364,6 +364,10 @@ hr {
   width: 100px;
   height: 40px;
   border-radius: 4px;
+}
+
+.meal-btn-container--single-meal {
+  justify-content:center;
 }
 
 .meals-back-button {
