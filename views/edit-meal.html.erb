@@ -14,10 +14,24 @@
           <h4>Carbohydrate</h4>
           <h4>Fat</h4>
         </div>
+          <a href="/add-meal">
+          <img src="/fonts/add-document.png" alt="Add File" width="25"   height="25">
+          </a>
       </div>
         <div class="meal-values-container"> 
-          
-          
+          <h5>Chicken Breast</h5>
+          <div class="meal-line-values">
+            <p><%= @calories_per_meal %></p>
+            <p><%= @protein  %> gram </p>
+            <p><%= @carb %> gram</p>
+            <p><%= @fat %> gram</p>
+          </div>
+              <a href="build-meal-plan/edit-meal">
+                <img src="/fonts/file-edit.png" alt="Edit File" width="25" height="25">
+              </a>
+              <a href="build-meal-plan/edit-meal">
+                <img src="/fonts/trash-xmark.png" alt="Trash File" width="25" height="25">
+              </a>
         </div>
       </div>
     </div>

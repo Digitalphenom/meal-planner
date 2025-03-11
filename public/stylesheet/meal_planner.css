@@ -166,7 +166,6 @@ h2 {
   display: flex;
   justify-content: center;
   gap: 20px;
-
 }
 
 .box {
@@ -295,7 +294,7 @@ h2 {
 }
 
 .meal-box--single{
-  min-width: 690px !important;
+  min-width: 670px !important;
 }
 
 .meal-top--single{
@@ -304,14 +303,18 @@ h2 {
 }
 
 .meal-top--single h2{
-  font-size: 46px;
+  font-size: 40px;
+}
+
+.meal-top--single img{
+  transform: translateX(50px); /* Moves it 50px to the right */
 }
 
 .meal-sections--single {
   display: flex;
   justify-content: space-between; 
   width: 420px;
-  padding-right: 40px;
+  padding-left: 70px;
 }
 
 .meal-sections--single h4{
@@ -322,27 +325,25 @@ h2 {
   padding-bottom: 4px;
 }
 
-
 img { 
   padding: 10px;
 }
 
 .meal-values-container { 
-  display: flex;
-  justify-content: space-around;
+  display:flex;
   background-color: #FBFAFA;
   align-items: center;
   height: 85px;
-  margin-top: 4px; 
-  
+  margin-top: 4px;
 }
 
-.meal-values-container h5{
+.meal-values-container h5{  
   font-family: 'Nunito Sans', sans-serif;
-  font-size: 22px;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: bold;
   color: #043159;
-  padding-right: 50px;
-  
+  padding-left: 10px;
 }
 
 .meal-values-container p{
@@ -352,11 +353,17 @@ img {
   color: #043159;
 }
 
+.meal-values-container img{
+  transform: translateX(98px); /* Moves it 50px to the right */
+}
+
 .meal-line-values {
   display: flex;
-  justify-content:space-between ;
-  width: 62%;
+  justify-content: space-around;
+  transform: translateX(80px); /* Moves it 50px to the right */
+  width: 100%;
 }
+
 
 .trash-icon-button {
   background-color: #F2F7D6;
