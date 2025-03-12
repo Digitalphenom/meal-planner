@@ -11,6 +11,7 @@ set :views, File.expand_path('../views', __dir__)
 MACRO = %i[protein carb fat total_calories].freeze
 CALORIES_PER_GRAM = { protein: 4, carb: 4, fat: 9 }.freeze
 
+
 configure do
   use Rack::LiveReload
   enable :sessions
@@ -26,6 +27,10 @@ helpers do
     { Endurance: %w[20 50 30],
       Strength: %w[40 30 30],
       Weight_Loss: %w[50 25 25] }
+  end
+
+  def food_group
+    %i[Veggies Protein Dairy Grains Fruits Sweets ]
   end
 end
 
@@ -111,12 +116,18 @@ get '/build-meal-plan' do
   erb :"plan.html", layout: :"layout.html"
 end
 
-get '/build-meal-plan/edit-meal:id' do
+get '/build-meal-plan/edit-meal/:id' do
   @protein, @carb, @fat, @calories_per_meal = MACRO.map do |macro|
     session[:user_one][:calc][macro]
   end
   @meal_id = params[:id].to_i + 1
   erb :"edit-meal.html", layout: :"layout.html"
+end
+
+get '/build-meal-plan/edit-meal/:id/add-meal' do
+  
+
+  erb :"add_meal.html", layout: :"layout.html"
 end
 
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
@@ -152,3 +163,4 @@ post '/build-meal-plan/destroy-meal:id' do
   # redirect '/build-meal-plan'
   'Destroy Meal'
 end
+

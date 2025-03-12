@@ -303,7 +303,7 @@ h2 {
 }
 
 .meal-top--single h2{
-  font-size: 40px;
+  font-size: 37px;
 }
 
 .meal-top--single img{
@@ -456,6 +456,45 @@ hr {
   text-decoration: none;
   color: grey;
 }
+
+/*◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞*/
+.choose-meal {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: orange;
+  
+}
+.choose-meal-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items:end;
+  width: 700px;
+  flex-wrap: wrap;
+  background-color: #4BB217;
+  gap: 40px;
+}
+
+.choose-meal-box {
+  width: 130px;
+  background-color:aliceblue;
+}
+
+.choose-meal-box h2{
+  background-color: #F2F7D6;
+  margin: 0;
+  padding: 10px;
+  text-align: left;
+  width: 84%;
+}
+
+.choose-meal-box label{
+  display: flex;
+  font-family: 'Nunito Sans', sans-serif;
+  padding-top: 10px;  
+}
+
 /* ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞*/
 
 @media (max-width: 1070px) {

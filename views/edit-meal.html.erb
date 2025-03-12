@@ -14,7 +14,7 @@
           <h4>Carbohydrate</h4>
           <h4>Fat</h4>
         </div>
-          <a href="/add-meal">
+          <a href="/build-meal-plan/edit-meal/<%= @meal_id %>/add-meal">
           <img src="/fonts/add-document.png" alt="Add File" width="25"   height="25">
           </a>
       </div>
@@ -26,7 +26,7 @@
             <p><%= @carb %> gram</p>
             <p><%= @fat %> gram</p>
           </div>
-              <a href="build-meal-plan/edit-meal">
+              <a href="build-meal-plan/edit-meal/:id/add-meal">
                 <img src="/fonts/file-edit.png" alt="Edit File" width="25" height="25">
               </a>
               <a href="build-meal-plan/edit-meal">

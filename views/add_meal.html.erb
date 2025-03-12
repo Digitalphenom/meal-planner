@@ -1,0 +1,24 @@
+<section class="hero-content-container">
+<h1> Add your meals</h1>
+  <p class="hero-text">Free Custom Weight Loss Meal Plan.
+  </p>
+  <br>
+  <div class="choose-meal">
+    <div class="choose-meal-container">
+      <% food_group.each do |group| %>
+        <div class="choose-meal-box">
+          <h2><%= group %></h2>
+          <% list_of_foods.each do |food| %>
+          <label for="html">
+          <input type="radio" id="html" name="fav_language" value="HTML"><%= food %>
+          </label>
+          <% end %>
+        </div>
+      <% end %>
+        <div class="choose-meal-box">
+        </div>
+        <div class="choose-meal-box">
+        </div>
+      </div>
+  </div>
+</section>
