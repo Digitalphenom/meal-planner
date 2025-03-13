@@ -2,17 +2,35 @@
 <h1> Add your meals</h1>
   <p class="hero-text">Free Custom Weight Loss Meal Plan.
   </p>
+  <input type="submit" form="myForm" class="button">
   <br>
+  
+    <form id="myForm" action="/build-meal-plan/edit-meal/<%= @meal_id %>" method="post">
   <div class="choose-meal">
     <div class="choose-meal-container">
-      <% food_group.each do |group| %>
+      <% @yaml.each do |hash| %>
+      <% hash.keys.each do |group| %>
         <div class="choose-meal-box">
           <h2><%= group %></h2>
-          <% list_of_foods.each do |food| %>
-          <label for="html">
-          <input type="radio" id="html" name="fav_language" value="HTML"><%= food %>
-          </label>
+          <% hash[group].each do |food| %>
+          <fieldset id="subgroup-group1">
+            <label>
+              <input type="radio" name="food_choice" value="<%= food %>" onclick="toggleSubgroup(true)">
+              <%= food %>
+            </label>
+          </fieldset>
+          <fieldset id="subgroup-group2">
+            <label>
+              <input type="radio" name="food_portion" value="part"> Part 1/4
+              <input type="radio" name="food_portion" value="half"> Half 1/2
+              <input type="radio" name="food_portion" value="full"> Full 1
+            </label>
+          </fieldset>
+          </form>
+          <br>
+          <hr>
           <% end %>
+        <% end %>
         </div>
       <% end %>
         <div class="choose-meal-box">
@@ -22,3 +40,29 @@
       </div>
   </div>
 </section>
+<script>
+  function toggleSubgroup() {
+    const subgroup2 = document.getElementById("subgroup-group2");
+
+    // Enable the subgroup
+    subgroup2.disabled = false;
+
+    // Clear previous selections before enabling new subgroup choices
+    document.querySelectorAll("#subgroup-group2 input[type='radio']").forEach(input => {
+      input.checked = false;
+    });
+
+    // Ensure only one main option is selected
+    document.querySelectorAll("input[name='main_selection']").forEach(mainInput => {
+      mainInput.addEventListener("change", function () {
+        // Clear subgroup choices when switching main options
+        document.querySelectorAll("#subgroup-group2 input[type='radio']").forEach(input => {
+          input.checked = false;
+        });
+      });
+    });
+  }
+</script>
+
+
+

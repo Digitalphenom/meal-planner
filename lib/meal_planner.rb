@@ -5,12 +5,19 @@ require 'sinatra'
 require 'erubi'
 require 'sinatra/reloader' if development?
 require 'rack-livereload'
+require 'httparty'
+require 'json'
+
+require_relative '../test.rb'
+include Query
+
+API_ID = 'b7ce6444'
+API_KEY = '6c02b9f4d99019bfb393d43ed417283d'
 
 set :public_folder, File.expand_path('../public', __dir__)
 set :views, File.expand_path('../views', __dir__)
 MACRO = %i[protein carb fat total_calories].freeze
 CALORIES_PER_GRAM = { protein: 4, carb: 4, fat: 9 }.freeze
-
 
 configure do
   use Rack::LiveReload
@@ -29,8 +36,8 @@ helpers do
       Weight_Loss: %w[50 25 25] }
   end
 
-  def food_group
-    %i[Veggies Protein Dairy Grains Fruits Sweets ]
+  def meals_count
+    session['user_one'][:total_meals].keys
   end
 end
 
@@ -89,6 +96,13 @@ def capture_calc_values
   end
 end
 
+def build_meal_structure
+  session['user_one'][:total_meals] = {}
+  @meals.times do |idx|
+    session['user_one'][:total_meals][idx + 1] = []
+  end
+end
+
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 get '/' do
@@ -113,6 +127,7 @@ end
 get '/build-meal-plan' do
   initialize_macros
   capture_calc_values
+  build_meal_structure
   erb :"plan.html", layout: :"layout.html"
 end
 
@@ -120,17 +135,30 @@ get '/build-meal-plan/edit-meal/:id' do
   @protein, @carb, @fat, @calories_per_meal = MACRO.map do |macro|
     session[:user_one][:calc][macro]
   end
-  @meal_id = params[:id].to_i + 1
+  @meal_id = params[:id].to_i
+  session['user_one'][:total_meals][@meal_id]
   erb :"edit-meal.html", layout: :"layout.html"
 end
 
 get '/build-meal-plan/edit-meal/:id/add-meal' do
-  
-
-  erb :"add_meal.html", layout: :"layout.html"
+  @yaml = YAML.load_file('food_list.yml')
+  @meal_id = params[:id].to_i
+  erb :"add_meal.html", layout: :"layout.html"  
 end
 
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
+
+post '/build-meal-plan/edit-meal/:id' do
+  # add to page after returning from add meal get route
+  # this is where we query api with data gathered from form
+  
+  @protein, @carb, @fat, @calories_per_meal = MACRO.map do |macro|
+    
+    session[:user_one][:calc][macro]
+  end   
+  @meal_id = params[:id].to_i
+  erb :"edit-meal.html", layout: :"layout.html"
+end
 
 post '/enter-calories' do
   if invalid_input?(params[:calories])

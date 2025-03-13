@@ -1,15 +1,15 @@
 <section class="hero-content-container">
-  <h1> Tailored Meal Planner</h1>
+  <h1> All your meals</h1>
     <p class="hero-text">We get it, losing weight is hard work. Were here to make it a little easier for you. Enter your info, and well send you a Free Custom Weight Loss Meal Plan.
     </p>
     <br>
 
     <div class="meals-container">
-      <% @meals.times do |i| %>
+      <% meals_count.each do |meal_id| %>
     <div class="meal-box">
       <div class="meal-top">
-        <h2>Meal <%= i + 1 %></h2> 
-        <a href="build-meal-plan/edit-meal<%= i %>">
+        <h2>Meal <%= meal_id %></h2> 
+        <a href="build-meal-plan/edit-meal/<%= meal_id %>">
           <img src="/fonts/file-edit.png" alt="Edit File" width="25"   height="25">
         </a>
         <form action="/build-meal-plan/destroy-meal(id)" method="post">

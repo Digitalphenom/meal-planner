@@ -20,3 +20,4 @@ group :development do
 end
 ruby '3.2.2'
 
+gem "httparty", "~> 0.22.0"
