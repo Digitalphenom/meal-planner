@@ -7,22 +7,25 @@ require 'sinatra/reloader' if development?
 require 'rack-livereload'
 require 'httparty'
 require 'json'
+require 'dotenv/load'
 
-require_relative '../test.rb'
-include Query
-
-API_ID = 'b7ce6444'
-API_KEY = '6c02b9f4d99019bfb393d43ed417283d'
-
-set :public_folder, File.expand_path('../public', __dir__)
-set :views, File.expand_path('../views', __dir__)
+MACRO_ID = [208, 203, 205, 204].freeze
 MACRO = %i[protein carb fat total_calories].freeze
 CALORIES_PER_GRAM = { protein: 4, carb: 4, fat: 9 }.freeze
+MACRO_PRESET = {
+  Endurance: %w[20 50 30],
+  Strength: %w[40 30 30],
+  Weight_Loss: %w[50 25 25]
+}.freeze
 
 configure do
   use Rack::LiveReload
   enable :sessions
   set :session_secret, SecureRandom.hex(32)
+  set :public_folder, File.expand_path('../public', __dir__)
+  set :views, File.expand_path('../views', __dir__)
+  set :api_key, ENV['API_KEY']
+  set :api_id, ENV['API_ID']
 end
 
 helpers do
@@ -30,31 +33,8 @@ helpers do
     @add_inline ? 'background-color: #FFB5B5' : ''
   end
 
-  def macros
-    { Endurance: %w[20 50 30],
-      Strength: %w[40 30 30],
-      Weight_Loss: %w[50 25 25] }
-  end
-
-  def meals_count
+  def meals_count_arr
     session['user_one'][:total_meals].keys
-  end
-end
-
-#◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
-
-before do
-  if ENV["DEBUG_MODE"] == "true"
-    session[:user_one] = {}
-    session[:user_one][:presets] = {}
-    session[:user_one][:calc] = {}
-    
-    @macros = session[:user_one][:presets][:macros] = [40, 30, 30]
-    @meals = session[:user_one][:presets][:meals] = 5
-    @total_calories = session[:user_one][:presets][:calories] = 1500
-    retrieve_calories_per_gram(@macros, @total_calories)
-    retrieve_calories_per_meal
-    capture_calc_values
   end
 end
 
@@ -74,10 +54,11 @@ def extract_macros
   @total_calories = session[:user_one][:presets][:calories].to_i
 end
 
-def retrieve_calories_per_gram(macros, calories)
-  @protein, @carb, @fat = macros.map.with_index do |macro, idx|
-    (macro.to_f / 100) * calories / CALORIES_PER_GRAM[MACRO[idx]]
-  end.map { |ratio| (ratio / @meals).floor(2) }
+def retrieve_calories_per_gram
+  result = @macros.map.with_index do |macro, idx|
+    (macro.to_f / 100) * @total_calories / CALORIES_PER_GRAM[MACRO[idx]]
+  end
+  @protein, @carb, @fat = result.map { |ratio| (ratio / @meals).floor(2) }
 end
 
 def retrieve_calories_per_meal
@@ -87,20 +68,34 @@ end
 def initialize_macros
   extract_macros
   retrieve_calories_per_meal
-  retrieve_calories_per_gram(@macros, @total_calories)
+  retrieve_calories_per_gram
 end
 
 def capture_calc_values
-  [@protein, @carb, @fat, @calories_per_meal].each.with_index do |macro, i|
-    session[:user_one][:calc][MACRO[i]] = macro
+  arr = [@protein, @carb, @fat, @calories_per_meal]
+
+  arr.each.with_index do |macro, idx|
+    session[:user_one][:calc][MACRO[idx]] = macro
   end
 end
 
-def build_meal_structure
+def initialize_meal_count
   session['user_one'][:total_meals] = {}
-  @meals.times do |idx|
-    session['user_one'][:total_meals][idx + 1] = []
-  end
+  @meals.times { |idx| session['user_one'][:total_meals][idx + 1] = [] }
+end
+
+def query_nutritionix
+  url = 'https://trackapi.nutritionix.com/v2/natural/nutrients'
+  body = { query: "#{@food_portion} #{@food_choice}" }
+  headers = {
+    'x-app-id' => settings.api_id, 'x-app-key' => settings.api_key,
+    'Content-Type' => 'application/json'
+  }
+
+  response = HTTParty.post(url, headers: headers, body: body.to_json)
+  nutrients = response['foods'].first['full_nutrients']
+  result = nutrients.map(&:values).select { |sub_arr| MACRO_ID.include?(sub_arr.first) }
+  result.map { |sub_arr| sub_arr.last.floor(2) }
 end
 
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
@@ -127,14 +122,14 @@ end
 get '/build-meal-plan' do
   initialize_macros
   capture_calc_values
-  build_meal_structure
+  initialize_meal_count
   erb :"plan.html", layout: :"layout.html"
 end
 
 get '/build-meal-plan/edit-meal/:id' do
-  @protein, @carb, @fat, @calories_per_meal = MACRO.map do |macro|
-    session[:user_one][:calc][macro]
-  end
+  @total_protein, @total_carb, @total_fat, @calories_per_meal =
+    MACRO.map { |macro| session[:user_one][:calc][macro] }
+
   @meal_id = params[:id].to_i
   session['user_one'][:total_meals][@meal_id]
   erb :"edit-meal.html", layout: :"layout.html"
@@ -143,20 +138,21 @@ end
 get '/build-meal-plan/edit-meal/:id/add-meal' do
   @yaml = YAML.load_file('food_list.yml')
   @meal_id = params[:id].to_i
-  erb :"add_meal.html", layout: :"layout.html"  
+  erb :"add_meal.html", layout: :"layout.html"
 end
 
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
 
 post '/build-meal-plan/edit-meal/:id' do
-  # add to page after returning from add meal get route
-  # this is where we query api with data gathered from form
-  
-  @protein, @carb, @fat, @calories_per_meal = MACRO.map do |macro|
-    
-    session[:user_one][:calc][macro]
-  end   
   @meal_id = params[:id].to_i
+  @food_choice = params[:food_choice]
+  @food_portion = params[:food_portion]
+
+  @food_protein, @food_fat, @food_carb, @food_calories = query_nutritionix
+
+  result = MACRO.map { |macro| session[:user_one][:calc][macro] }
+  @total_protein, @total_carb, @total_fat, @calories_per_meal = result
+
   erb :"edit-meal.html", layout: :"layout.html"
 end
 
@@ -191,4 +187,3 @@ post '/build-meal-plan/destroy-meal:id' do
   # redirect '/build-meal-plan'
   'Destroy Meal'
 end
-

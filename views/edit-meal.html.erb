@@ -18,21 +18,31 @@
           <img src="/fonts/add-document.png" alt="Add File" width="25"   height="25">
           </a>
       </div>
+      <!-- insert after submitting post request-->
         <div class="meal-values-container"> 
-          <h5>Chicken Breast</h5>
+          <h5><%= "#{@food_portion} #{@food_choice}" %></h5>
           <div class="meal-line-values">
-            <p><%= @calories_per_meal %></p>
-            <p><%= @protein  %> gram </p>
-            <p><%= @carb %> gram</p>
-            <p><%= @fat %> gram</p>
+            <p><%= @food_calories %> </p>
+            <p><%= @food_protein %></p>
+            <p><%= @food_carb %></p>
+            <p><%= @food_fat %></p>
           </div>
-              <a href="build-meal-plan/edit-meal/:id/add-meal">
-                <img src="/fonts/file-edit.png" alt="Edit File" width="25" height="25">
-              </a>
-              <a href="build-meal-plan/edit-meal">
-                <img src="/fonts/trash-xmark.png" alt="Trash File" width="25" height="25">
-              </a>
+      <!-- end -->
+            <a href="build-meal-plan/edit-meal/:id/add-meal">
+              <img src="/fonts/file-edit.png" alt="Edit File" width="25"height="25">
+            </a>
+            <a href="build-meal-plan/edit-meal">
+              <img src="/fonts/trash-xmark.png" alt="Trash File"width="25" height="25">
+            </a>
         </div>
+        <div class="meal-total-values-bottom">
+        <p>Totals</p>
+        <p></p>
+        <p>/ <%= @calories_per_meal %> gram</p>
+        <p>/ <%= @total_protein  %> gram</p>
+        <p>/ <%= @total_carb  %> gram</p>
+        <p>/ <%= @total_fat  %> gram</p>
+      </div>
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@
     info, and well send you a Free Custom Weight Loss Meal Plan
   </p>
   <div class="macros-container">
-      <% macros.each do |type, percent| %>
+      <% MACRO_PRESET.each do |type, percent| %>
     <form action="/choose-macros" method="post">
       <input type="hidden" name="macros" value="<%= percent.join(',') %>">
       <% protein, carbs, fat =  percent[0], percent[1], percent[2] %>

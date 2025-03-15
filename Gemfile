@@ -21,3 +21,5 @@ end
 ruby '3.2.2'
 
 gem "httparty", "~> 0.22.0"
+
+gem "dotenv", "~> 3.1"

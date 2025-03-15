@@ -335,6 +335,23 @@ img {
   align-items: center;
   height: 85px;
   margin-top: 4px;
+  
+}
+
+.meal-total-values-bottom { 
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  
+}
+
+.meal-total-values-bottom p{
+  font-family: 'Nunito-Sans', sans-serif;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 100;
+  color:#797979;
+  padding-left: 10px;
 }
 
 .meal-values-container h5{  
