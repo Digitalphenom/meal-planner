@@ -19,15 +19,16 @@
           </a>
       </div>
       <!-- insert after submitting post request-->
+      <% if meals? %>
+        <% access_meal_values do |food_choice, cal, protein, carb, fat| %>
         <div class="meal-values-container"> 
-          <h5><%= "#{@food_portion} #{@food_choice}" %></h5>
+          <h5><%= "#{@food_portion} #{food_choice}" %></h5>
           <div class="meal-line-values">
-            <p><%= @food_calories %> </p>
-            <p><%= @food_protein %></p>
-            <p><%= @food_carb %></p>
-            <p><%= @food_fat %></p>
+            <p><%= cal %> </p>
+            <p><%= protein %></p>
+            <p><%= carb %></p>
+            <p><%= fat %></p>
           </div>
-      <!-- end -->
             <a href="build-meal-plan/edit-meal/:id/add-meal">
               <img src="/fonts/file-edit.png" alt="Edit File" width="25"height="25">
             </a>
@@ -35,6 +36,11 @@
               <img src="/fonts/trash-xmark.png" alt="Trash File"width="25" height="25">
             </a>
         </div>
+        <% end %>
+      <% else %>
+        <div class="meal-values-container"></div>
+      <% end %>
+      <!-- end -->
         <div class="meal-total-values-bottom">
         <p>Totals</p>
         <p></p>
@@ -50,6 +56,6 @@
     <div class="meals-back-button">
       <a href="/build-meal-plan">Go Back</a>
     </div>
-    <button href="" type="submit" class="meals-button">Get Totals</button>
+    <button href="" type="submit" class="meals-button">Done</button>
   </div>
 </section>

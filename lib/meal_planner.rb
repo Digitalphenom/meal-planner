@@ -9,6 +9,7 @@ require 'httparty'
 require 'json'
 require 'dotenv/load'
 
+URL = 'https://trackapi.nutritionix.com/v2/natural/nutrients'
 MACRO_ID = [208, 203, 205, 204].freeze
 MACRO = %i[protein carb fat total_calories].freeze
 CALORIES_PER_GRAM = { protein: 4, carb: 4, fat: 9 }.freeze
@@ -36,6 +37,25 @@ helpers do
   def meals_count_arr
     session['user_one'][:total_meals].keys
   end
+
+  def access_meal_values
+    meal_food_items = session['user_one'][:total_meals][@meal_id].keys
+    meal_item_macros = session['user_one'][:total_meals][@meal_id].values
+
+    meal_food_items.each.with_index do |food_item, idx|
+      
+      protein = meal_item_macros[idx][:protein]
+      carb = meal_item_macros[idx][:carb]
+      fat = meal_item_macros[idx][:fat]
+      total_calories = meal_item_macros[idx][:total_calories]
+
+      yield(food_item, total_calories, protein, carb, fat) if block_given?
+    end
+  end
+
+  def meals?
+    !session['user_one'][:total_meals][@meal_id].empty?
+  end
 end
 
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
@@ -48,7 +68,7 @@ def invalid_input?(input)
   end
 end
 
-def extract_macros
+def capture_meal_values
   @macros = session[:user_one][:presets][:macros].split(',').map(&:to_i)
   @meals = session[:user_one][:presets][:meals].to_i
   @total_calories = session[:user_one][:presets][:calories].to_i
@@ -66,7 +86,7 @@ def retrieve_calories_per_meal
 end
 
 def initialize_macros
-  extract_macros
+  capture_meal_values
   retrieve_calories_per_meal
   retrieve_calories_per_gram
 end
@@ -81,21 +101,47 @@ end
 
 def initialize_meal_count
   session['user_one'][:total_meals] = {}
-  @meals.times { |idx| session['user_one'][:total_meals][idx + 1] = [] }
+  @meals.times do |idx|
+    session['user_one'][:total_meals][idx + 1] = {}
+  end
 end
 
+def extract_macros
+  nutrients_arr = @nutrients.map(&:values)
+
+  result = MACRO_ID.each_with_object([]) do |id, result|
+    result << nutrients_arr.select do |sub_arr|
+      next if sub_arr.first != id
+      sub_arr.first
+    end
+  end.flatten(1)
+  result.map { |sub_arr| sub_arr.last.floor(2) }
+end
+
+
 def query_nutritionix
-  url = 'https://trackapi.nutritionix.com/v2/natural/nutrients'
   body = { query: "#{@food_portion} #{@food_choice}" }
   headers = {
     'x-app-id' => settings.api_id, 'x-app-key' => settings.api_key,
     'Content-Type' => 'application/json'
   }
 
-  response = HTTParty.post(url, headers: headers, body: body.to_json)
-  nutrients = response['foods'].first['full_nutrients']
-  result = nutrients.map(&:values).select { |sub_arr| MACRO_ID.include?(sub_arr.first) }
-  result.map { |sub_arr| sub_arr.last.floor(2) }
+  response = HTTParty.post(URL, headers: headers, body: body.to_json)
+  @nutrients = response['foods'].first['full_nutrients']
+  extract_macros
+end
+
+def insert_chosen_food_macros
+  macro = %i[total_calories protein carb fat]
+
+  session['user_one'][:total_meals].each do |key, hsh|
+    next unless key == @meal_id
+
+    query_nutritionix.each.with_index do |macro_value, idx|
+      hsh[@food_choice] = {} unless hsh[@food_choice]
+      hsh[@food_choice][macro[idx]] = macro_value
+    end
+  end
 end
 
 # ◟◅◸◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◅▻◞
@@ -147,8 +193,7 @@ post '/build-meal-plan/edit-meal/:id' do
   @meal_id = params[:id].to_i
   @food_choice = params[:food_choice]
   @food_portion = params[:food_portion]
-
-  @food_protein, @food_fat, @food_carb, @food_calories = query_nutritionix
+  insert_chosen_food_macros
 
   result = MACRO.map { |macro| session[:user_one][:calc][macro] }
   @total_protein, @total_carb, @total_fat, @calories_per_meal = result
